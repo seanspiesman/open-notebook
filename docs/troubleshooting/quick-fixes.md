@@ -23,11 +23,11 @@ This means your frontend can't reach the API. **99% of the time, this is an API_
 
 1. **Check if API is running:**
    ```bash
-   curl http://localhost:5055/health
+   curl http://localhost:5056/health
    # Should return: {"status": "healthy"} or similar
    ```
 
-   - ❌ **Connection refused?** → Port 5055 is not exposed. [Jump to port fix](#fix-missing-port)
+   - ❌ **Connection refused?** → Port 5056 is not exposed. [Jump to port fix](#fix-missing-port)
    - ✅ **Got response?** → API is running, continue below.
 
 2. **Are you accessing from a different machine?**
@@ -51,12 +51,12 @@ This means your frontend can't reach the API. **99% of the time, this is an API_
    ```yaml
    environment:
      - OPENAI_API_KEY=your_key
-     - API_URL=http://192.168.1.100:5055
+     - API_URL=http://192.168.1.100:5056
    ```
 
    **Docker Run** - Add this flag:
    ```bash
-   -e API_URL=http://192.168.1.100:5055
+   -e API_URL=http://192.168.1.100:5056
    ```
 
    Then restart:
@@ -73,17 +73,17 @@ This means your frontend can't reach the API. **99% of the time, this is an API_
    - Refresh the page
    - Look for failed requests to `/api/config`
 
-   The URL should match: `http://YOUR_SERVER_IP:5055/api/config`
+   The URL should match: `http://YOUR_SERVER_IP:5056/api/config`
 
-   If it shows `localhost:5055` or wrong IP, your API_URL is not set correctly.
+   If it shows `localhost:5056` or wrong IP, your API_URL is not set correctly.
 
 <a name="fix-missing-port"></a>
-### Fix: Port 5055 Not Exposed
+### Fix: Port 5056 Not Exposed
 
 **Check currently exposed ports:**
 ```bash
 docker ps
-# Look for: 0.0.0.0:5055->5055
+# Look for: 0.0.0.0:5056->5056
 ```
 
 **Not there?** Add it:
@@ -94,14 +94,14 @@ services:
   open_notebook:
     ports:
       - "8502:8502"
-      - "5055:5055"  # Add this line!
+      - "5056:5056"  # Add this line!
 ```
 
-**Docker Run** - Add `-p 5055:5055`:
+**Docker Run** - Add `-p 5056:5056`:
 ```bash
 docker run -d \
   -p 8502:8502 \
-  -p 5055:5055 \  # Add this!
+  -p 5056:5056 \  # Add this!
   # ... rest of your command
 ```
 
@@ -150,9 +150,9 @@ Your API_URL must match the URL you use to access Open Notebook.
 
 | You access via | Set API_URL to |
 |----------------|----------------|
-| `http://192.168.1.50:8502` | `http://192.168.1.50:5055` |
-| `http://myserver:8502` | `http://myserver:5055` |
-| `http://10.0.0.5:8502` | `http://10.0.0.5:5055` |
+| `http://192.168.1.50:8502` | `http://192.168.1.50:5056` |
+| `http://myserver:8502` | `http://myserver:5056` |
+| `http://10.0.0.5:8502` | `http://10.0.0.5:5056` |
 
 **Apply the fix:**
 
@@ -160,12 +160,12 @@ Your API_URL must match the URL you use to access Open Notebook.
    ```yaml
    environment:
      - OPENAI_API_KEY=your_key
-     - API_URL=http://YOUR_SERVER_IP_OR_HOSTNAME:5055
+     - API_URL=http://YOUR_SERVER_IP_OR_HOSTNAME:5056
    ```
 
 2. Or edit your `docker.env` file:
    ```env
-   API_URL=http://YOUR_SERVER_IP_OR_HOSTNAME:5055
+   API_URL=http://YOUR_SERVER_IP_OR_HOSTNAME:5056
    ```
 
 3. Restart:
@@ -198,9 +198,9 @@ Or provide the password when logging into the web interface.
 
 You added `/api` to API_URL. Remove it:
 
-❌ **Wrong:** `API_URL=http://192.168.1.100:5055/api`
+❌ **Wrong:** `API_URL=http://192.168.1.100:5056/api`
 
-✅ **Correct:** `API_URL=http://192.168.1.100:5055`
+✅ **Correct:** `API_URL=http://192.168.1.100:5056`
 
 The `/api` path is added automatically by the application.
 
@@ -298,9 +298,9 @@ docker stats --no-stream
 | Scenario | API_URL Value | Example |
 |----------|---------------|---------|
 | **Local access only** | Not needed | Leave unset |
-| **Remote on same network** | `http://SERVER_IP:5055` | `http://192.168.1.100:5055` |
-| **Remote with hostname** | `http://HOSTNAME:5055` | `http://myserver.local:5055` |
-| **Behind reverse proxy (no SSL)** | `http://DOMAIN:5055` | `http://notebook.local:5055` |
+| **Remote on same network** | `http://SERVER_IP:5056` | `http://192.168.1.100:5056` |
+| **Remote with hostname** | `http://HOSTNAME:5056` | `http://myserver.local:5056` |
+| **Behind reverse proxy (no SSL)** | `http://DOMAIN:5056` | `http://notebook.local:5056` |
 | **Behind reverse proxy (SSL)** | `https://DOMAIN/api` | `https://notebook.example.com/api` |
 
 **Remember:** The API_URL is from your **browser's perspective**, not the server's!

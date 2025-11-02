@@ -38,7 +38,7 @@ services:
     image: lfnovo/open_notebook:v1-latest-single
     ports:
       - "8502:8502"  # Web UI
-      - "5055:5055"  # API
+      - "5056:5056"  # API
     environment:
       - OPENAI_API_KEY=REPLACE_WITH_YOUR_KEY
       # Database connection (required)
@@ -72,10 +72,10 @@ services:
     image: lfnovo/open_notebook:v1-latest-single
     ports:
       - "8502:8502"  # Web UI
-      - "5055:5055"  # API
+      - "5056:5056"  # API
     environment:
       - OPENAI_API_KEY=REPLACE_WITH_YOUR_KEY
-      - API_URL=http://REPLACE_WITH_SERVER_IP:5055
+      - API_URL=http://REPLACE_WITH_SERVER_IP:5056
       # Database connection (required)
       - SURREAL_URL=ws://localhost:8000/rpc
       - SURREAL_USER=root
@@ -113,7 +113,7 @@ ifconfig | grep inet # Mac
 1. **Open the URL** in your browser
 2. If you see "Unable to connect to server":
    - **Remote setup?** Make sure you set `API_URL` with your actual server IP
-   - **Both ports exposed?** Run `docker ps` and verify you see both 8502 and 5055
+   - **Both ports exposed?** Run `docker ps` and verify you see both 8502 and 5056
    - **Using localhost for remote?** That won't work! Use the actual IP address
 
 3. If you see the Open Notebook interface:
@@ -129,9 +129,9 @@ ifconfig | grep inet # Mac
 
 | ❌ Wrong | ✅ Correct |
 |----------|-----------|
-| Only exposing port 8502 | Expose BOTH ports: 8502 and 5055 |
+| Only exposing port 8502 | Expose BOTH ports: 8502 and 5056 |
 | Using `localhost` in API_URL for remote access | Use the actual server IP: `192.168.1.100` |
-| Adding `/api` to API_URL | Just use `http://server-ip:5055` |
+| Adding `/api` to API_URL | Just use `http://server-ip:5056` |
 | Forgetting to restart after config changes | Always run `docker compose down && docker compose up -d` |
 
 ## Next Steps

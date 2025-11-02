@@ -36,7 +36,7 @@ services:
     image: lfnovo/open_notebook:v1-latest-single
     ports:
       - "8502:8502"  # Web UI
-      - "5055:5055"  # API (required!)
+      - "5056:5056"  # API (required!)
     env_file:
       - ./docker.env
     pull_policy: always
@@ -68,7 +68,7 @@ services:
     image: lfnovo/open_notebook:v1-latest-single
     ports:
       - "8502:8502"  # Web UI
-      - "5055:5055"  # API (required!)
+      - "5056:5056"  # API (required!)
     env_file:
       - ./docker.env
     pull_policy: always
@@ -84,8 +84,8 @@ services:
 OPENAI_API_KEY=YOUR_OPENAI_API_KEY_HERE
 
 # CRITICAL: Replace YOUR_SERVER_IP with your server's actual IP address
-# Example: API_URL=http://192.168.1.100:5055
-API_URL=http://YOUR_SERVER_IP:5055
+# Example: API_URL=http://192.168.1.100:5056
+API_URL=http://YOUR_SERVER_IP:5056
 
 # Database connection (required for single-container)
 SURREAL_URL="ws://localhost:8000/rpc"
@@ -118,7 +118,7 @@ docker compose up -d
 ## Basic Verification
 
 1. **Check Services**: Visit http://localhost:8502 - you should see the Open Notebook interface
-2. **API Health**: Visit http://localhost:5055/docs - you should see the API documentation
+2. **API Health**: Visit http://localhost:5056/docs - you should see the API documentation
 3. **No Errors**: Run `docker-compose logs` to ensure no error messages
 
 ## Simple Example Workflow
@@ -188,12 +188,12 @@ Now that you have Open Notebook running:
    - ✅ Yes → You MUST set `API_URL` in your `docker.env` (see Remote Setup above)
    - ❌ No → Skip to step 2
 
-2. **Is port 5055 exposed?**
+2. **Is port 5056 exposed?**
    ```bash
    docker ps
-   # Should show both: 0.0.0.0:8502->8502 AND 0.0.0.0:5055->5055
+   # Should show both: 0.0.0.0:8502->8502 AND 0.0.0.0:5056->5056
    ```
-   - ❌ Missing 5055? Add it to your `docker-compose.yml` ports section
+   - ❌ Missing 5056? Add it to your `docker-compose.yml` ports section
 
 3. **Restart after changes:**
    ```bash
@@ -223,7 +223,7 @@ docker compose up -d
 
 ### Can't Access Interface
 - Ensure Docker Desktop is running
-- Check firewall isn't blocking ports 8502 and 5055
+- Check firewall isn't blocking ports 8502 and 5056
 - Try: `docker compose restart`
 
 ## Stopping Open Notebook

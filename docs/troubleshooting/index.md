@@ -89,7 +89,7 @@ docker stats
    curl http://localhost:8000/health
    
    # API
-   curl http://localhost:5055/health
+   curl http://localhost:5056/health
    
    # UI
    curl http://localhost:8502/healthz

@@ -72,7 +72,7 @@ COPY --from=builder /app/frontend/.next/static /app/frontend/.next/static
 COPY --from=builder /app/frontend/public /app/frontend/public
 
 # Expose ports for Frontend and API
-EXPOSE 8502 5055
+EXPOSE 8502 5056
 
 RUN mkdir -p /app/data
 

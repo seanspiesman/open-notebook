@@ -393,4 +393,4 @@ Effective notebook management in Open Notebook requires thoughtful organization,
 
 Remember that Open Notebook is designed to be flexible and adaptable to your workflow. Experiment with different organizational strategies, naming conventions, and content management approaches to find what works best for your research style and objectives.
 
-For additional support and advanced features, consult the [API documentation](http://localhost:5055/docs) and explore the [transformation system](../features/transformations.md) for custom content processing capabilities.
+For additional support and advanced features, consult the [API documentation](http://localhost:5056/docs) and explore the [transformation system](../features/transformations.md) for custom content processing capabilities.

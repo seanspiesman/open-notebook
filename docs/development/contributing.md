@@ -32,7 +32,7 @@ make start-all
 
 ```bash
 # Check that the API is running
-curl http://localhost:5055/health
+curl http://localhost:5056/health
 
 # Check that the frontend is accessible
 open http://localhost:8502

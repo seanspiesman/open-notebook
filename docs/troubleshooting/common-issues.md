@@ -17,13 +17,13 @@ This document covers the most frequently encountered issues when installing, con
 1. **Are both ports exposed?**
    ```bash
    docker ps
-   # Should show: 0.0.0.0:8502->8502 AND 0.0.0.0:5055->5055
+   # Should show: 0.0.0.0:8502->8502 AND 0.0.0.0:5056->5056
    ```
-   ✅ **Fix:** Add `-p 5055:5055` to your docker run command, or add it to docker-compose.yml:
+   ✅ **Fix:** Add `-p 5056:5056` to your docker run command, or add it to docker-compose.yml:
    ```yaml
    ports:
      - "8502:8502"
-     - "5055:5055"  # Add this!
+     - "5056:5056"  # Add this!
    ```
 
 2. **Are you accessing from a different machine than where Docker is running?**
@@ -41,12 +41,12 @@ This document covers the most frequently encountered issues when installing, con
    **Docker Compose:**
    ```yaml
    environment:
-     - API_URL=http://192.168.1.100:5055
+     - API_URL=http://192.168.1.100:5056
    ```
 
    **Docker Run:**
    ```bash
-   -e API_URL=http://192.168.1.100:5055
+   -e API_URL=http://192.168.1.100:5056
    ```
 
 3. **Using localhost in API_URL but accessing remotely?**
@@ -54,23 +54,23 @@ This document covers the most frequently encountered issues when installing, con
    ❌ **Wrong:**
    ```
    Access from browser: http://192.168.1.100:8502
-   API_URL setting: http://localhost:5055  # This won't work!
+   API_URL setting: http://localhost:5056  # This won't work!
    ```
 
    ✅ **Correct:**
    ```
    Access from browser: http://192.168.1.100:8502
-   API_URL setting: http://192.168.1.100:5055
+   API_URL setting: http://192.168.1.100:5056
    ```
 
 #### Common Scenarios:
 
 | Your Setup | Access URL | API_URL Value |
 |------------|-----------|---------------|
-| Docker on your laptop, accessed locally | `http://localhost:8502` | Not needed (or `http://localhost:5055`) |
-| Docker on Proxmox VM at 192.168.1.50 | `http://192.168.1.50:8502` | `http://192.168.1.50:5055` |
-| Docker on Raspberry Pi at 10.0.0.10 | `http://10.0.0.10:8502` | `http://10.0.0.10:5055` |
-| Docker on NAS at nas.local | `http://nas.local:8502` | `http://nas.local:5055` |
+| Docker on your laptop, accessed locally | `http://localhost:8502` | Not needed (or `http://localhost:5056`) |
+| Docker on Proxmox VM at 192.168.1.50 | `http://192.168.1.50:8502` | `http://192.168.1.50:5056` |
+| Docker on Raspberry Pi at 10.0.0.10 | `http://10.0.0.10:8502` | `http://10.0.0.10:5056` |
+| Docker on NAS at nas.local | `http://nas.local:8502` | `http://nas.local:5056` |
 | Behind reverse proxy at notebook.mydomain.com | `https://notebook.mydomain.com` | `https://notebook.mydomain.com/api` |
 
 #### After changing API_URL:
@@ -89,9 +89,9 @@ docker rm open-notebook
 
 ---
 
-### ❌ Frontend trying to connect on port 8502 instead of 5055
+### ❌ Frontend trying to connect on port 8502 instead of 5056
 
-**Symptom:** Frontend tries to access `http://10.10.10.107:8502/api/config` instead of using port 5055.
+**Symptom:** Frontend tries to access `http://10.10.10.107:8502/api/config` instead of using port 5056.
 
 **Cause:** API_URL is not set correctly or you're using an old version.
 
@@ -109,9 +109,9 @@ docker rm open-notebook
 
 **Cause:** You added `/api` to the end of API_URL.
 
-❌ **Wrong:** `API_URL=http://192.168.1.100:5055/api`
+❌ **Wrong:** `API_URL=http://192.168.1.100:5056/api`
 
-✅ **Correct:** `API_URL=http://192.168.1.100:5055`
+✅ **Correct:** `API_URL=http://192.168.1.100:5056`
 
 The `/api` path is added automatically by the application.
 
@@ -165,7 +165,7 @@ Or provide it when logging into the web interface.
 
 3. **Common port conflicts**:
    - Port 8502 (Next.js): Often used by other Next.js apps
-   - Port 5055 (API): May conflict with other web services
+   - Port 5056 (API): May conflict with other web services
    - Port 8000 (SurrealDB): May conflict with other databases
 
 ### Permission Denied (Docker)

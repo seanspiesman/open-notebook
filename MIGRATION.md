@@ -35,26 +35,26 @@ If you're currently using `latest` or `latest-single`, you need to:
    image: lfnovo/open_notebook:v1-latest-single
    ```
 
-2. **Expose port 5055** for the API (required in v1):
+2. **Expose port 5056** for the API (required in v1):
    ```yaml
    ports:
      - "8502:8502"  # Frontend
-     - "5055:5055"  # API (NEW - required)
+     - "5056:5056"  # API (NEW - required)
    ```
 
 3. **Verify API connectivity** after upgrade:
    ```bash
-   curl http://localhost:5055/api/config
+   curl http://localhost:5056/api/config
    ```
 
-### API Connectivity (Port 5055)
+### API Connectivity (Port 5056)
 
-**Important:** v1.0 requires port 5055 to be exposed to your host machine so the frontend can communicate with the API.
+**Important:** v1.0 requires port 5056 to be exposed to your host machine so the frontend can communicate with the API.
 
 **Auto-Detection:** The Next.js frontend automatically detects the API URL:
-- If you access the frontend at `http://localhost:8502`, it uses `http://localhost:5055`
-- If you access the frontend at `http://192.168.1.100:8502`, it uses `http://192.168.1.100:5055`
-- If you access the frontend at `http://my-server:8502`, it uses `http://my-server:5055`
+- If you access the frontend at `http://localhost:8502`, it uses `http://localhost:5056`
+- If you access the frontend at `http://192.168.1.100:8502`, it uses `http://192.168.1.100:5056`
+- If you access the frontend at `http://my-server:8502`, it uses `http://my-server:5056`
 
 **Manual Override:** If auto-detection doesn't work (e.g., reverse proxy, complex networking), set the `API_URL` environment variable:
 
@@ -62,8 +62,8 @@ If you're currently using `latest` or `latest-single`, you need to:
 # Docker run example
 docker run -d \
   --name open-notebook \
-  -p 8502:8502 -p 5055:5055 \
-  -e API_URL=http://my-custom-api:5055 \
+  -p 8502:8502 -p 5056:5056 \
+  -e API_URL=http://my-custom-api:5056 \
   -v ./notebook_data:/app/data \
   -v ./surreal_data:/mydata \
   lfnovo/open_notebook:v1-latest-single
@@ -76,9 +76,9 @@ services:
     image: lfnovo/open_notebook:v1-latest-single
     ports:
       - "8502:8502"
-      - "5055:5055"
+      - "5056:5056"
     environment:
-      - API_URL=http://my-custom-api:5055
+      - API_URL=http://my-custom-api:5056
     volumes:
       - ./notebook_data:/app/data
       - ./surreal_data:/mydata
@@ -90,10 +90,10 @@ Verify your API is accessible with:
 
 ```bash
 # Local deployment
-curl http://localhost:5055/api/config
+curl http://localhost:5056/api/config
 
 # Remote deployment
-curl http://your-server-ip:5055/api/config
+curl http://your-server-ip:5056/api/config
 ```
 
 Expected response:
@@ -111,13 +111,13 @@ Note: The API URL is now auto-detected by the frontend from the hostname you're 
 ### Troubleshooting
 
 **Problem:** Frontend shows "Cannot connect to API" error
-- **Check:** Is port 5055 exposed? Run `docker ps` and verify port mapping
-- **Check:** Can you reach the API? Run `curl http://localhost:5055/api/config`
+- **Check:** Is port 5056 exposed? Run `docker ps` and verify port mapping
+- **Check:** Can you reach the API? Run `curl http://localhost:5056/api/config`
 - **Solution:** If using custom networking, set `API_URL` environment variable
 
 **Problem:** Auto-detection uses wrong hostname
-- **Example:** Frontend at `http://internal-hostname:8502` but API should use `http://public-hostname:5055`
-- **Solution:** Set `API_URL=http://public-hostname:5055` environment variable
+- **Example:** Frontend at `http://internal-hostname:8502` but API should use `http://public-hostname:5056`
+- **Solution:** Set `API_URL=http://public-hostname:5056` environment variable
 
 **Problem:** Still running the old Streamlit version after `docker pull`
 - **Check:** Are you using the "latest" tag? It's frozen at Streamlit version
@@ -136,7 +136,7 @@ Open Notebook has migrated from a Streamlit-based frontend to a modern React/Nex
 | **Frontend Framework** | Streamlit | Next.js 15 + React 18 |
 | **UI Components** | Streamlit widgets | shadcn/ui + Radix UI |
 | **Frontend Port** | 8502 | 8502 (unchanged) |
-| **API Port** | 5055 | 5055 (unchanged) |
+| **API Port** | 5056 | 5056 (unchanged) |
 | **Navigation** | Sidebar with emoji icons | Clean sidebar navigation |
 | **Performance** | Server-side rendering | Client-side React with API calls |
 | **Customization** | Limited | Highly customizable |
@@ -178,7 +178,7 @@ If you're running Open Notebook via Docker, migration is automatic:
 
 4. **Access the new frontend**:
    - Frontend: http://localhost:8502 (new React UI)
-   - API Docs: http://localhost:5055/docs
+   - API Docs: http://localhost:5056/docs
 
 **Your data is automatically preserved!** All notebooks, sources, and notes carry over seamlessly.
 
@@ -217,7 +217,7 @@ If you're running from source code:
 
 5. **Access the application**:
    - Frontend: http://localhost:8502
-   - API: http://localhost:5055
+   - API: http://localhost:5056
 
 ## Breaking Changes
 
@@ -286,7 +286,7 @@ docker-compose restart
 The new frontend requires the API to be running. Ensure:
 ```bash
 # API should be accessible at
-curl http://localhost:5055/health
+curl http://localhost:5056/health
 
 # If not, check API logs
 docker-compose logs open_notebook | grep api
@@ -314,18 +314,18 @@ Data is preserved automatically. If you don't see your data:
 ### Issue: Port conflicts
 
 **Solution**:
-If ports 8502 or 5055 are already in use:
+If ports 8502 or 5056 are already in use:
 
 ```bash
 # Find what's using the port
 lsof -i :8502
-lsof -i :5055
+lsof -i :5056
 
 # Stop conflicting service or change Open Notebook ports
 # Edit docker-compose.yml:
 ports:
   - "8503:8502"  # Change external port
-  - "5056:5055"  # Change external port
+  - "5056:5056"  # Change external port
 ```
 
 ## Rollback Instructions

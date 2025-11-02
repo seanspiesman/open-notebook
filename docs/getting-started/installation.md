@@ -97,7 +97,7 @@ Open Notebook consists of four main services that work together:
 - **Technology**: SurrealDB - a modern, multi-model database
 - **Configuration**: Runs in Docker container with persistent storage
 
-### 2. **FastAPI Backend** (Port 5055)
+### 2. **FastAPI Backend** (Port 5056)
 - **Purpose**: REST API for all application functionality
 - **Features**: Interactive API documentation, authentication, data validation
 - **Endpoints**: `/api/notebooks`, `/api/sources`, `/api/notes`, `/api/chat`
@@ -318,7 +318,7 @@ make start-all
 
 This will start:
 - SurrealDB database on port 8000
-- FastAPI backend on port 5055
+- FastAPI backend on port 5056
 - Background worker for processing
 - React frontend on port 8502
 
@@ -363,7 +363,7 @@ services:
     image: lfnovo/open_notebook:v1-latest-single
     ports:
       - "8502:8502"
-      - "5055:5055"
+      - "5056:5056"
     env_file:
       - ./docker.env
     pull_policy: always
@@ -553,7 +553,7 @@ docker compose ps
 curl http://localhost:8000/health
 
 # Test API backend
-curl http://localhost:5055/health
+curl http://localhost:5056/health
 
 # Test React frontend
 curl http://localhost:8502/healthz
@@ -625,7 +625,7 @@ When using the REST API programmatically:
 ```bash
 # Example API call with password
 curl -H "Authorization: Bearer your_password" \
-     http://localhost:5055/api/notebooks
+     http://localhost:5056/api/notebooks
 ```
 
 ### Network Security

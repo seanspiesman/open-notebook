@@ -111,7 +111,7 @@ For Docker deployments:
 ```bash
 docker run -d \
   --name open-notebook \
-  -p 8502:8502 -p 5055:5055 \
+  -p 8502:8502 -p 5056:5056 \
   -v ./notebook_data:/app/data \
   -v ./surreal_data:/mydata \
   -e OPENAI_COMPATIBLE_BASE_URL_TTS=http://host.docker.internal:8969/v1 \

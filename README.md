@@ -70,7 +70,7 @@ Learn more about our project at [https://www.open-notebook.ai](https://www.open-
 
 - 🏷️ **Docker tags have changed**: The `latest` tag is now **frozen** at the last Streamlit version
 - 🆕 **Use `v1-latest` tag** for the new React/Next.js version (recommended)
-- 🔌 **Port 5055 required**: You must expose port 5055 for the API to work
+- 🔌 **Port 5056 required**: You must expose port 5056 for the API to work
 - 📖 **Read the migration guide**: See [MIGRATION.md](MIGRATION.md) for detailed upgrade instructions
 
 **New users**: You can ignore this notice and proceed with the Quick Start below using the `v1-latest-single` tag.
@@ -125,7 +125,7 @@ mkdir open-notebook && cd open-notebook
 
 docker run -d \
   --name open-notebook \
-  -p 8502:8502 -p 5055:5055 \
+  -p 8502:8502 -p 5056:5056 \
   -v ./notebook_data:/app/data \
   -v ./surreal_data:/mydata \
   -e OPENAI_API_KEY=your_key_here \
@@ -150,11 +150,11 @@ mkdir open-notebook && cd open-notebook
 
 docker run -d \
   --name open-notebook \
-  -p 8502:8502 -p 5055:5055 \
+  -p 8502:8502 -p 5056:5056 \
   -v ./notebook_data:/app/data \
   -v ./surreal_data:/mydata \
   -e OPENAI_API_KEY=your_key_here \
-  -e API_URL=http://YOUR_SERVER_IP:5055 \
+  -e API_URL=http://YOUR_SERVER_IP:5056 \
   -e SURREAL_URL="ws://localhost:8000/rpc" \
   -e SURREAL_USER="root" \
   -e SURREAL_PASSWORD="root" \
@@ -175,11 +175,11 @@ docker run -d \
 >
 > **Both ports are required:**
 > - **Port 8502**: Web interface (what you see in your browser)
-> - **Port 5055**: API backend (required for the app to function)
+> - **Port 5056**: API backend (required for the app to function)
 >
 > **API_URL must match how YOU access the server:**
-> - ✅ Access via `http://192.168.1.100:8502` → set `API_URL=http://192.168.1.100:5055`
-> - ✅ Access via `http://myserver.local:8502` → set `API_URL=http://myserver.local:5055`
+> - ✅ Access via `http://192.168.1.100:8502` → set `API_URL=http://192.168.1.100:5056`
+> - ✅ Access via `http://myserver.local:8502` → set `API_URL=http://myserver.local:5056`
 > - ❌ Don't use `localhost` for remote servers - it won't work from other devices!
 
 ### Using Docker Compose (Recommended for Easy Management)
@@ -193,11 +193,11 @@ services:
     # Or use: ghcr.io/lfnovo/open-notebook:v1-latest-single
     ports:
       - "8502:8502"  # Web UI
-      - "5055:5055"  # API (required!)
+      - "5056:5056"  # API (required!)
     environment:
       - OPENAI_API_KEY=your_key_here
       # For remote access, uncomment and set your server IP/domain:
-      # - API_URL=http://192.168.1.100:5055
+      # - API_URL=http://192.168.1.100:5056
       # Database connection (required for single-container)
       - SURREAL_URL=ws://localhost:8000/rpc
       - SURREAL_USER=root
@@ -225,9 +225,9 @@ open-notebook/
 | Problem | Solution |
 |---------|----------|
 | **"Unable to connect to server"** | Set `API_URL` environment variable to match how you access the server (see remote setup above) |
-| **Blank page or errors** | Ensure BOTH ports (8502 and 5055) are exposed in your docker command |
+| **Blank page or errors** | Ensure BOTH ports (8502 and 5056) are exposed in your docker command |
 | **Works on server but not from other computers** | Don't use `localhost` in `API_URL` - use your server's actual IP address |
-| **"404" or "config endpoint" errors** | Don't add `/api` to `API_URL` - use just `http://your-ip:5055` |
+| **"404" or "config endpoint" errors** | Don't add `/api` to `API_URL` - use just `http://your-ip:5056` |
 | **Still having issues?** | Check our [5-minute troubleshooting guide](docs/troubleshooting/quick-fixes.md) or [join Discord](https://discord.gg/37XJPXfz2w) |
 
 ### How Open Notebook Works
@@ -246,7 +246,7 @@ open-notebook/
                  │ proxies /api/* requests ↓
                  ▼
          ┌───────────────┐
-         │   Port 5055   │  ← FastAPI Backend (handles requests)
+         │   Port 5056   │  ← FastAPI Backend (handles requests)
          │     API       │
          └───────┬───────┘
                  │
@@ -260,7 +260,7 @@ open-notebook/
 **Key Points:**
 - **v1.1+**: Next.js automatically proxies `/api/*` requests to the backend, simplifying reverse proxy setup
 - Your browser loads the frontend from port 8502
-- The frontend needs to know where to find the API - when accessing remotely, set: `API_URL=http://your-server-ip:5055`
+- The frontend needs to know where to find the API - when accessing remotely, set: `API_URL=http://your-server-ip:5056`
 - **Behind reverse proxy?** You only need to proxy to port 8502 now! See [Reverse Proxy Guide](docs/deployment/reverse-proxy.md)
 
 ## Star History
@@ -320,7 +320,7 @@ Thanks to the [Esperanto](https://github.com/lfnovo/esperanto) library, we suppo
 ### Advanced Features
 - **⚡ Reasoning Model Support**: Full support for thinking models like DeepSeek-R1 and Qwen3
 - **🔧 Content Transformations**: Powerful customizable actions to summarize and extract insights
-- **🌐 Comprehensive REST API**: Full programmatic access for custom integrations [![API Docs](https://img.shields.io/badge/API-Documentation-blue?style=flat-square)](http://localhost:5055/docs)
+- **🌐 Comprehensive REST API**: Full programmatic access for custom integrations [![API Docs](https://img.shields.io/badge/API-Documentation-blue?style=flat-square)](http://localhost:5056/docs)
 - **🔐 Optional Password Protection**: Secure public deployments with authentication
 - **📊 Fine-Grained Context Control**: Choose exactly what to share with AI models
 - **📎 Citations**: Get answers with proper source citations

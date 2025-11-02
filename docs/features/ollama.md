@@ -108,7 +108,7 @@ services:
     image: lfnovo/open_notebook:v1-latest-single
     ports:
       - "8502:8502"
-      - "5055:5055"
+      - "5056:5056"
     environment:
       - OLLAMA_API_BASE=http://ollama:11434
     volumes:

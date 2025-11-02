@@ -86,7 +86,7 @@ OpenAI provides everything you need to get started:
        image: lfnovo/open_notebook:v1-latest-single
        ports:
          - "8502:8502"  # Frontend
-         - "5055:5055"  # API
+         - "5056:5056"  # API
        environment:
          - OPENAI_API_KEY=your_openai_key_here
        volumes:
@@ -118,7 +118,7 @@ OpenAI provides everything you need to get started:
 
 5. **Access the application**:
    - **Next.js UI**: http://localhost:8502 - Modern, responsive interface
-   - **API Documentation**: http://localhost:5055/docs - Full REST API access
+   - **API Documentation**: http://localhost:5056/docs - Full REST API access
    - You should see the Open Notebook interface!
 
 **Alternative: Using GHCR**
@@ -172,7 +172,7 @@ services:
     # Or use: ghcr.io/lfnovo/open-notebook:v1-latest
     ports:
       - "8502:8502"  # Next.js Frontend
-      - "5055:5055"  # REST API
+      - "5056:5056"  # REST API
     env_file:
       - ./docker.env
     volumes:
@@ -316,7 +316,7 @@ services:
     image: lfnovo/open_notebook:v1-latest
     ports:
       - "127.0.0.1:8502:8502"
-      - "127.0.0.1:5055:5055"
+      - "127.0.0.1:5056:5056"
     env_file:
       - ./docker.env
     volumes:
@@ -507,7 +507,7 @@ services:
     image: lfnovo/open_notebook:v1-latest
     ports:
       - "8502:8502"  # Next.js Frontend
-      - "5055:5055"  # REST API
+      - "5056:5056"  # REST API
     env_file:
       - ./docker.env
     volumes:
@@ -517,7 +517,7 @@ services:
         condition: service_healthy
     restart: always
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:5055/health"]
+      test: ["CMD", "curl", "-f", "http://localhost:5056/health"]
       interval: 30s
       timeout: 10s
       retries: 3

@@ -31,7 +31,7 @@ This is the easiest way to get started with persistent data.
        image: lfnovo/open_notebook:v1-latest-single
        ports:
          - "8502:8502"  # React frontend
-         - "5055:5055"  # REST API
+         - "5056:5056"  # REST API
        environment:
          # Required: Add your API keys here
          - OPENAI_API_KEY=your_openai_key
@@ -56,8 +56,8 @@ This is the easiest way to get started with persistent data.
 
 4. **Access the application**:
    - React frontend: http://localhost:8502
-   - REST API: http://localhost:5055
-   - API Documentation: http://localhost:5055/docs
+   - REST API: http://localhost:5056
+   - API Documentation: http://localhost:5056/docs
 
 ### Option 2: Direct Docker Run
 
@@ -67,7 +67,7 @@ For quick testing without docker-compose:
 docker run -d \
   --name open-notebook-single \
   -p 8502:8502 \
-  -p 5055:5055 \
+  -p 5056:5056 \
   -v ./notebook_data:/app/data \
   -v ./surreal_single_data:/mydata \
   -e OPENAI_API_KEY=your_openai_key \

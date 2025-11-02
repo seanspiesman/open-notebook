@@ -107,7 +107,7 @@ All API endpoints require authentication:
 ```bash
 # API calls require Authorization header
 curl -H "Authorization: Bearer your_password" \
-  http://localhost:5055/api/notebooks
+  http://localhost:5056/api/notebooks
 ```
 
 ### Excluded Endpoints
@@ -129,7 +129,7 @@ services:
     image: lfnovo/open_notebook:v1-latest-single
     ports:
       - "8502:8502"
-      - "5055:5055"
+      - "5056:5056"
     environment:
       - OPENAI_API_KEY=sk-your-openai-key
       - OPEN_NOTEBOOK_PASSWORD=your_secure_password
@@ -158,7 +158,7 @@ services:
     image: lfnovo/open_notebook:v1-latest
     ports:
       - "8502:8502"
-      - "5055:5055"
+      - "5056:5056"
     environment:
       - OPENAI_API_KEY=sk-your-openai-key
       - OPEN_NOTEBOOK_PASSWORD=your_secure_password
@@ -233,7 +233,7 @@ server {
     
     # API endpoints
     location /api/ {
-        proxy_pass http://127.0.0.1:5055;
+        proxy_pass http://127.0.0.1:5056;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -252,7 +252,7 @@ sudo ufw allow ssh
 sudo ufw allow 80/tcp
 sudo ufw allow 443/tcp
 sudo ufw deny 8502/tcp  # Block direct access to Next.js
-sudo ufw deny 5055/tcp  # Block direct access to API
+sudo ufw deny 5056/tcp  # Block direct access to API
 sudo ufw enable
 
 # iptables
@@ -260,7 +260,7 @@ iptables -A INPUT -p tcp --dport 22 -j ACCEPT
 iptables -A INPUT -p tcp --dport 80 -j ACCEPT
 iptables -A INPUT -p tcp --dport 443 -j ACCEPT
 iptables -A INPUT -p tcp --dport 8502 -j DROP
-iptables -A INPUT -p tcp --dport 5055 -j DROP
+iptables -A INPUT -p tcp --dport 5056 -j DROP
 ```
 
 ### Docker Security
@@ -272,7 +272,7 @@ services:
     image: lfnovo/open_notebook:v1-latest
     ports:
       - "127.0.0.1:8502:8502"  # Bind to localhost only
-      - "127.0.0.1:5055:5055"
+      - "127.0.0.1:5056:5056"
     environment:
       - OPEN_NOTEBOOK_PASSWORD=your_secure_password
     volumes:
@@ -298,20 +298,20 @@ services:
 ```bash
 # Get all notebooks
 curl -H "Authorization: Bearer your_password" \
-  http://localhost:5055/api/notebooks
+  http://localhost:5056/api/notebooks
 
 # Create a new notebook
 curl -X POST \
   -H "Authorization: Bearer your_password" \
   -H "Content-Type: application/json" \
   -d '{"name": "My Notebook", "description": "Research notes"}' \
-  http://localhost:5055/api/notebooks
+  http://localhost:5056/api/notebooks
 
 # Upload a file
 curl -X POST \
   -H "Authorization: Bearer your_password" \
   -F "file=@document.pdf" \
-  http://localhost:5055/api/sources/upload
+  http://localhost:5056/api/sources/upload
 ```
 
 ### Python API Client
@@ -341,7 +341,7 @@ class OpenNotebookClient:
         return response.json()
 
 # Usage
-client = OpenNotebookClient("http://localhost:5055", "your_password")
+client = OpenNotebookClient("http://localhost:5056", "your_password")
 notebooks = client.get_notebooks()
 ```
 
@@ -393,7 +393,7 @@ docker compose logs open_notebook | grep -i auth
 
 # Test API directly
 curl -H "Authorization: Bearer your_password" \
-  http://localhost:5055/health
+  http://localhost:5056/health
 ```
 
 #### UI Shows Login Form but API Doesn't
@@ -414,7 +414,7 @@ docker compose logs | grep -i password
 ```bash
 # Check authorization header format
 curl -v -H "Authorization: Bearer your_password" \
-  http://localhost:5055/api/notebooks
+  http://localhost:5056/api/notebooks
 
 # Verify password matches environment variable
 echo $OPEN_NOTEBOOK_PASSWORD
@@ -436,17 +436,17 @@ echo "Password contains: $(echo $OPEN_NOTEBOOK_PASSWORD | wc -c) characters"
 
 ```bash
 # Test without password (should fail)
-curl http://localhost:5055/api/notebooks
+curl http://localhost:5056/api/notebooks
 
 # Test with correct password (should succeed)
 curl -H "Authorization: Bearer your_password" \
-  http://localhost:5055/api/notebooks
+  http://localhost:5056/api/notebooks
 
 # Test health endpoint (should work without password)
-curl http://localhost:5055/health
+curl http://localhost:5056/health
 
 # Test documentation (should work without password)
-curl http://localhost:5055/docs
+curl http://localhost:5056/docs
 ```
 
 ## 📞 Getting Help

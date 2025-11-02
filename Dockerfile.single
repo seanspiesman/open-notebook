@@ -78,7 +78,7 @@ COPY --from=builder /app/frontend/public /app/frontend/public
 RUN mkdir -p /app/data /mydata
 
 # Expose ports for Frontend and API
-EXPOSE 8502 5055
+EXPOSE 8502 5056
 
 # Copy single-container supervisord configuration
 COPY supervisord.single.conf /etc/supervisor/conf.d/supervisord.conf

@@ -78,12 +78,12 @@ export function ConnectionErrorOverlay({
               <code className="block bg-background p-2 rounded text-xs">
                 # For Docker:
                 <br />
-                docker run -e API_URL=http://your-host:5055 ...
+                docker run -e API_URL=http://your-host:5056 ...
                 <br />
                 <br />
                 # For local development (.env file):
                 <br />
-                API_URL=http://localhost:5055
+                API_URL=http://localhost:5056
               </code>
             </div>
           ) : (

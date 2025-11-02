@@ -121,7 +121,7 @@ make start-all
 
 This starts:
 - **SurrealDB** (if not already running)
-- **FastAPI backend** on port 5055
+- **FastAPI backend** on port 5056
 - **Background worker** for async tasks
 - **React frontend** on port 8502
 

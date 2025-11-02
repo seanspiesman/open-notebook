@@ -11,10 +11,10 @@ Starting with v1.1, Open Notebook uses Next.js rewrites to dramatically simplify
 ```
 Browser → Reverse Proxy → Port 8502 (Next.js)
                              ↓ (internal proxy)
-                          Port 5055 (FastAPI)
+                          Port 5056 (FastAPI)
 ```
 
-Next.js rewrites automatically forward `/api/*` requests to the FastAPI backend on port 5055, so your reverse proxy only needs to know about one port!
+Next.js rewrites automatically forward `/api/*` requests to the FastAPI backend on port 5056, so your reverse proxy only needs to know about one port!
 
 ### Simple Configuration Examples
 
@@ -72,7 +72,7 @@ notebook.example.com {
 #### Coolify
 
 1. Create a new service pointing to `lfnovo/open_notebook:v1-latest-single`
-2. Set port to **8502** (not 5055!)
+2. Set port to **8502** (not 5056!)
 3. Add environment variable: `API_URL=https://your-domain.com`
 4. Enable HTTPS in Coolify settings
 5. Done! Coolify handles the reverse proxy automatically.
@@ -86,18 +86,18 @@ With the simplified approach, you typically only need:
 API_URL=https://your-domain.com
 
 # Optional: Only needed for multi-container deployments
-# Default is http://localhost:5055 (single-container)
-# INTERNAL_API_URL=http://api-service:5055
+# Default is http://localhost:5056 (single-container)
+# INTERNAL_API_URL=http://api-service:5056
 ```
 
 ### Optional: Direct API Access for External Integrations
 
-If you have external scripts or integrations that need direct API access, you can still route `/api/*` directly to port 5055:
+If you have external scripts or integrations that need direct API access, you can still route `/api/*` directly to port 5056:
 
 ```nginx
 # Optional: Direct API access (for external integrations only)
 location /api/ {
-    proxy_pass http://open-notebook:5055/api/;
+    proxy_pass http://open-notebook:5056/api/;
     # ... same headers as above
 }
 
@@ -132,8 +132,8 @@ The frontend uses a three-tier priority system to determine the API URL:
 - The Next.js frontend analyzes the incoming HTTP request
 - Extracts the hostname from the `host` header
 - Respects the `X-Forwarded-Proto` header (for HTTPS behind reverse proxies)
-- Constructs the API URL as `{protocol}://{hostname}:5055`
-- Example: Request to `http://10.20.30.20:8502` → API URL becomes `http://10.20.30.20:5055`
+- Constructs the API URL as `{protocol}://{hostname}:5056`
+- Example: Request to `http://10.20.30.20:8502` → API URL becomes `http://10.20.30.20:5056`
 
 ## Common Scenarios
 
@@ -144,7 +144,7 @@ No configuration needed! The system auto-detects.
 ```bash
 docker run -d \
   --name open-notebook \
-  -p 8502:8502 -p 5055:5055 \
+  -p 8502:8502 -p 5056:5056 \
   -v ./notebook_data:/app/data \
   -v ./surreal_data:/mydata \
   lfnovo/open_notebook:v1-latest-single
@@ -157,8 +157,8 @@ Access via IP address - auto-detection works, but you can be explicit:
 ```bash
 docker run -d \
   --name open-notebook \
-  -p 8502:8502 -p 5055:5055 \
-  -e API_URL=http://192.168.1.100:5055 \
+  -p 8502:8502 -p 5056:5056 \
+  -e API_URL=http://192.168.1.100:5056 \
   -v ./notebook_data:/app/data \
   -v ./surreal_data:/mydata \
   lfnovo/open_notebook:v1-latest-single
@@ -190,7 +190,7 @@ services:
       - ./surreal_data:/mydata
     ports:
       - "8502:8502"  # Frontend
-      - "5055:5055"  # API
+      - "5056:5056"  # API
     restart: unless-stopped
 
   nginx:
@@ -215,7 +215,7 @@ http {
     }
 
     upstream api {
-        server open-notebook:5055;
+        server open-notebook:5056;
     }
 
     server {
@@ -290,7 +290,7 @@ server {
     server_name api.notebook.example.com;
 
     location / {
-        proxy_pass http://open-notebook:5055;
+        proxy_pass http://open-notebook:5056;
         # ... proxy headers
     }
 }
@@ -320,7 +320,7 @@ services:
       - "traefik.http.routers.notebook-api.entrypoints=websecure"
       - "traefik.http.routers.notebook-api.tls.certresolver=myresolver"
       - "traefik.http.routers.notebook-api.priority=100"
-      - "traefik.http.services.notebook-api.loadbalancer.server.port=5055"
+      - "traefik.http.services.notebook-api.loadbalancer.server.port=5056"
     networks:
       - traefik-network
 
@@ -335,7 +335,7 @@ networks:
 ```caddy
 notebook.example.com {
     # API
-    reverse_proxy /api/* open-notebook:5055
+    reverse_proxy /api/* open-notebook:5056
 
     # Frontend (catch-all - handles /config automatically)
     reverse_proxy / open-notebook:8502
@@ -376,11 +376,11 @@ services:
    - Ensure your reverse proxy has valid SSL certificates
    - Mixed content errors (HTTPS frontend trying to reach HTTP API)
 
-### Frontend adds `:5055` to URL when using reverse proxy (versions ≤ 1.0.10)
+### Frontend adds `:5056` to URL when using reverse proxy (versions ≤ 1.0.10)
 
 **Symptoms** (only in versions 1.0.10 and earlier):
 - You set `API_URL=https://your-domain.com`
-- Browser console shows: "Attempted URL: https://your-domain.com:5055/api/config"
+- Browser console shows: "Attempted URL: https://your-domain.com:5056/api/config"
 - CORS errors with "Status code: (null)"
 
 **Root Cause**:
@@ -447,7 +447,7 @@ This happens when:
 2. **Set `API_URL` explicitly** when using reverse proxies to avoid auto-detection issues
 3. **Use environment files** (`.env` or `docker.env`) to manage configuration
 4. **Test your setup** by accessing the frontend and checking browser console logs
-5. **Keep ports 5055 and 8502 accessible** from your reverse proxy container
+5. **Keep ports 5056 and 8502 accessible** from your reverse proxy container
 
 ## Additional Resources
 

@@ -19,7 +19,7 @@ Open Notebook has migrated from a Next.js-based user interface to a modern Next.
 
 ### What Stays the Same
 - ✅ **Same Port**: Still runs on port 8502
-- ✅ **API Unchanged**: REST API remains on port 5055
+- ✅ **API Unchanged**: REST API remains on port 5056
 - ✅ **Data Intact**: All your notebooks, sources, and notes are preserved
 - ✅ **Configuration**: Same environment variables and settings
 - ✅ **Features**: All existing functionality works the same way
@@ -77,7 +77,7 @@ If you're running Open Notebook from source:
 
 4. **Access the new interface**:
    - Frontend: http://localhost:8502
-   - API: http://localhost:5055
+   - API: http://localhost:5056
 
 ## Verification Steps
 
@@ -101,7 +101,7 @@ After upgrading, verify everything works correctly:
    - Start a chat session
 
 4. **Check API access** (if you use it):
-   - Navigate to http://localhost:5055/docs
+   - Navigate to http://localhost:5056/docs
    - API documentation should be accessible
    - Test any custom integrations
 
@@ -176,7 +176,7 @@ After upgrading, verify everything works correctly:
 **Solutions**:
 1. Verify API is running:
    ```bash
-   curl http://localhost:5055/health
+   curl http://localhost:5056/health
    ```
 
 2. Check API logs:

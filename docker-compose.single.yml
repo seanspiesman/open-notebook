@@ -6,7 +6,7 @@ services:
       dockerfile: Dockerfile.single
     ports:
       - "8502:8502"  # Next.js Frontend
-      - "5055:5055"  # REST API
+      - "5056:5056"  # REST API
     env_file:
       - ./docker.env
     volumes:
@@ -16,5 +16,5 @@ services:
     # Single container includes all services: SurrealDB, API, Worker, and Next.js Frontend
     # Access:
     # - Next.js UI: http://localhost:8502
-    # - REST API: http://localhost:5055
-    # - API Documentation: http://localhost:5055/docs
+    # - REST API: http://localhost:5056
+    # - API Documentation: http://localhost:5056/docs

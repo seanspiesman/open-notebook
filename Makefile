@@ -158,8 +158,8 @@ start-all:
 	@echo "🌐 Starting Next.js frontend..."
 	@echo "✅ All services started!"
 	@echo "📱 Frontend: http://localhost:3000"
-	@echo "🔗 API: http://localhost:5055"
-	@echo "📚 API Docs: http://localhost:5055/docs"
+	@echo "🔗 API: http://localhost:5056"
+	@echo "📚 API Docs: http://localhost:5056/docs"
 	cd frontend && npm run dev
 
 stop-all:

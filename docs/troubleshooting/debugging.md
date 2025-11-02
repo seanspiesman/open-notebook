@@ -76,7 +76,7 @@ logging.basicConfig(
 ```
 INFO - Starting Open Notebook services
 INFO - Database connection established
-INFO - API server started on port 5055
+INFO - API server started on port 5056
 INFO - React frontend started on port 8502
 INFO - Background worker started
 INFO - Model configuration loaded
@@ -294,10 +294,10 @@ journalctl -u docker --since="1 hour ago"
 #### Response Time Analysis
 ```bash
 # Measure API response times
-time curl http://localhost:5055/api/notebooks
+time curl http://localhost:5056/api/notebooks
 
 # Measure with verbose output
-curl -w "@curl-format.txt" http://localhost:5055/api/notebooks
+curl -w "@curl-format.txt" http://localhost:5056/api/notebooks
 ```
 
 Create `curl-format.txt`:
@@ -534,7 +534,7 @@ docker compose exec open_notebook ping surrealdb
 docker compose exec open_notebook curl -I https://api.openai.com
 
 # Check port bindings
-netstat -tulpn | grep -E "(8000|5055|8502)"
+netstat -tulpn | grep -E "(8000|5056|8502)"
 ```
 
 #### DNS Resolution
@@ -585,7 +585,7 @@ log_memory_usage()
 ```bash
 # Check all health endpoints
 curl -f http://localhost:8000/health  # SurrealDB
-curl -f http://localhost:5055/health  # API
+curl -f http://localhost:5056/health  # API
 curl -f http://localhost:8502/healthz  # Next.js
 ```
 
@@ -594,7 +594,7 @@ curl -f http://localhost:8502/healthz  # Next.js
 #!/bin/bash
 # health_check.sh
 
-services=("8000" "5055" "8502")
+services=("8000" "5056" "8502")
 for port in "${services[@]}"; do
     if curl -f http://localhost:$port/health* >/dev/null 2>&1; then
         echo "✅ Service on port $port is healthy"

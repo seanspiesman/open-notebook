@@ -4,7 +4,7 @@ Open Notebook provides a comprehensive REST API for programmatic access to all f
 
 ## 🔗 Base Information
 
-- **Base URL**: `http://localhost:5055` (default development)
+- **Base URL**: `http://localhost:5056` (default development)
 - **Content Type**: `application/json`
 - **Authentication**: Optional password-based authentication
 - **API Version**: v0.2.2
@@ -18,7 +18,7 @@ Open Notebook supports optional password-based authentication via the `APP_PASSW
 ```bash
 # If APP_PASSWORD is set
 curl -H "Authorization: Bearer YOUR_PASSWORD" \
-  http://localhost:5055/api/notebooks
+  http://localhost:5056/api/notebooks
 ```
 
 ### Authentication Responses
@@ -58,7 +58,7 @@ Get all notebooks with optional filtering and ordering.
 
 **Example**:
 ```bash
-curl -X GET "http://localhost:5055/api/notebooks?archived=false&order_by=created desc"
+curl -X GET "http://localhost:5056/api/notebooks?archived=false&order_by=created desc"
 ```
 
 ### POST /api/notebooks
@@ -77,7 +77,7 @@ Create a new notebook.
 
 **Example**:
 ```bash
-curl -X POST http://localhost:5055/api/notebooks \
+curl -X POST http://localhost:5056/api/notebooks \
   -H "Content-Type: application/json" \
   -d '{"name": "Research Project", "description": "AI research notebook"}'
 ```
@@ -825,7 +825,7 @@ Get all chat sessions for a notebook.
 
 **Example**:
 ```bash
-curl -X GET "http://localhost:5055/api/chat/sessions?notebook_id=notebook:uuid"
+curl -X GET "http://localhost:5056/api/chat/sessions?notebook_id=notebook:uuid"
 ```
 
 ### POST /api/chat/sessions
@@ -844,7 +844,7 @@ Create a new chat session for a notebook.
 
 **Example**:
 ```bash
-curl -X POST http://localhost:5055/api/chat/sessions \
+curl -X POST http://localhost:5056/api/chat/sessions \
   -H "Content-Type: application/json" \
   -d '{"notebook_id": "notebook:uuid", "title": "New Chat Session"}'
 ```
@@ -964,7 +964,7 @@ Execute a chat message and get AI response.
 
 **Example**:
 ```bash
-curl -X POST http://localhost:5055/api/chat/execute \
+curl -X POST http://localhost:5056/api/chat/execute \
   -H "Content-Type: application/json" \
   -d '{
     "session_id": "chat_session:uuid",
@@ -1179,7 +1179,7 @@ Generate embeddings for an item (source, note, or insight).
 
 **Example (Synchronous)**:
 ```bash
-curl -X POST http://localhost:5055/api/embed \
+curl -X POST http://localhost:5056/api/embed \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer YOUR_PASSWORD" \
   -d '{
@@ -1192,7 +1192,7 @@ curl -X POST http://localhost:5055/api/embed \
 **Example (Asynchronous)**:
 ```bash
 # Submit for background processing
-COMMAND_ID=$(curl -X POST http://localhost:5055/api/embed \
+COMMAND_ID=$(curl -X POST http://localhost:5056/api/embed \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer YOUR_PASSWORD" \
   -d '{
@@ -1202,7 +1202,7 @@ COMMAND_ID=$(curl -X POST http://localhost:5055/api/embed \
   }' | jq -r '.command_id')
 
 # Check status
-curl -X GET http://localhost:5055/api/commands/$COMMAND_ID
+curl -X GET http://localhost:5056/api/commands/$COMMAND_ID
 ```
 
 ### POST /api/embeddings/rebuild
@@ -1239,7 +1239,7 @@ Rebuild embeddings for multiple items in bulk. Useful when switching embedding m
 **Example**:
 ```bash
 # Rebuild all existing embeddings
-curl -X POST http://localhost:5055/api/embeddings/rebuild \
+curl -X POST http://localhost:5056/api/embeddings/rebuild \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer YOUR_PASSWORD" \
   -d '{
@@ -1250,7 +1250,7 @@ curl -X POST http://localhost:5055/api/embeddings/rebuild \
   }'
 
 # Rebuild and create new embeddings for everything
-curl -X POST http://localhost:5055/api/embeddings/rebuild \
+curl -X POST http://localhost:5056/api/embeddings/rebuild \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer YOUR_PASSWORD" \
   -d '{
@@ -1323,7 +1323,7 @@ Get the status and progress of a rebuild operation.
 **Example**:
 ```bash
 # Start rebuild
-COMMAND_ID=$(curl -X POST http://localhost:5055/api/embeddings/rebuild \
+COMMAND_ID=$(curl -X POST http://localhost:5056/api/embeddings/rebuild \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer YOUR_PASSWORD" \
   -d '{"mode": "existing", "include_sources": true}' \
@@ -1332,7 +1332,7 @@ COMMAND_ID=$(curl -X POST http://localhost:5055/api/embeddings/rebuild \
 # Poll for status
 while true; do
   STATUS=$(curl -s -X GET \
-    "http://localhost:5055/api/embeddings/rebuild/$COMMAND_ID/status" \
+    "http://localhost:5056/api/embeddings/rebuild/$COMMAND_ID/status" \
     -H "Authorization: Bearer YOUR_PASSWORD" \
     | jq -r '.status')
 
@@ -1346,7 +1346,7 @@ while true; do
 done
 
 # Get final results
-curl -X GET "http://localhost:5055/api/embeddings/rebuild/$COMMAND_ID/status" \
+curl -X GET "http://localhost:5056/api/embeddings/rebuild/$COMMAND_ID/status" \
   -H "Authorization: Bearer YOUR_PASSWORD" | jq .
 ```
 
@@ -1407,30 +1407,30 @@ curl -X GET "http://localhost:5055/api/embeddings/rebuild/$COMMAND_ID/status" \
 
 ```bash
 # 1. Create a notebook
-NOTEBOOK_ID=$(curl -X POST http://localhost:5055/api/notebooks \
+NOTEBOOK_ID=$(curl -X POST http://localhost:5056/api/notebooks \
   -H "Content-Type: application/json" \
   -d '{"name": "AI Research", "description": "Research on AI applications"}' \
   | jq -r '.id')
 
 # 2. Add a source
-SOURCE_ID=$(curl -X POST http://localhost:5055/api/sources \
+SOURCE_ID=$(curl -X POST http://localhost:5056/api/sources \
   -H "Content-Type: application/json" \
   -d "{\"notebook_id\": \"$NOTEBOOK_ID\", \"type\": \"link\", \"url\": \"https://example.com/ai-article\", \"embed\": true}" \
   | jq -r '.id')
 
 # 3. Create a model
-MODEL_ID=$(curl -X POST http://localhost:5055/api/models \
+MODEL_ID=$(curl -X POST http://localhost:5056/api/models \
   -H "Content-Type: application/json" \
   -d '{"name": "gpt-5-mini", "provider": "openai", "type": "language"}' \
   | jq -r '.id')
 
 # 4. Search for content
-curl -X POST http://localhost:5055/api/search \
+curl -X POST http://localhost:5056/api/search \
   -H "Content-Type: application/json" \
   -d '{"query": "artificial intelligence", "type": "vector", "limit": 5}'
 
 # 5. Ask a question
-curl -X POST http://localhost:5055/api/search/ask/simple \
+curl -X POST http://localhost:5056/api/search/ask/simple \
   -H "Content-Type: application/json" \
   -d "{\"question\": \"What are the main AI applications?\", \"strategy_model\": \"$MODEL_ID\", \"answer_model\": \"$MODEL_ID\", \"final_answer_model\": \"$MODEL_ID\"}"
 ```
@@ -1439,45 +1439,45 @@ curl -X POST http://localhost:5055/api/search/ask/simple \
 
 ```bash
 # 1. Get episode profiles
-curl -X GET http://localhost:5055/api/episode-profiles
+curl -X GET http://localhost:5056/api/episode-profiles
 
 # 2. Create a podcast
-EPISODE_ID=$(curl -X POST http://localhost:5055/api/podcasts \
+EPISODE_ID=$(curl -X POST http://localhost:5056/api/podcasts \
   -H "Content-Type: application/json" \
   -d "{\"name\": \"AI Discussion\", \"briefing\": \"Discuss AI trends\", \"episode_profile_id\": \"episode_profile:tech_discussion\", \"source_ids\": [\"$SOURCE_ID\"]}" \
   | jq -r '.id')
 
 # 3. Check command status
-curl -X GET http://localhost:5055/api/commands
+curl -X GET http://localhost:5056/api/commands
 
 # 4. Download audio when ready
-curl -X GET http://localhost:5055/api/podcasts/$EPISODE_ID/audio -o podcast.mp3
+curl -X GET http://localhost:5056/api/podcasts/$EPISODE_ID/audio -o podcast.mp3
 ```
 
 ### Chat Conversation Example
 
 ```bash
 # 1. Create a chat session
-SESSION_ID=$(curl -X POST http://localhost:5055/api/chat/sessions \
+SESSION_ID=$(curl -X POST http://localhost:5056/api/chat/sessions \
   -H "Content-Type: application/json" \
   -d "{\"notebook_id\": \"$NOTEBOOK_ID\", \"title\": \"Research Discussion\"}" \
   | jq -r '.id')
 
 # 2. Build context for the chat
-CONTEXT=$(curl -X POST http://localhost:5055/api/chat/context \
+CONTEXT=$(curl -X POST http://localhost:5056/api/chat/context \
   -H "Content-Type: application/json" \
   -d "{\"notebook_id\": \"$NOTEBOOK_ID\", \"context_config\": {\"sources\": {\"$SOURCE_ID\": \"full content\"}}}")
 
 # 3. Send a chat message
-curl -X POST http://localhost:5055/api/chat/execute \
+curl -X POST http://localhost:5056/api/chat/execute \
   -H "Content-Type: application/json" \
   -d "{\"session_id\": \"$SESSION_ID\", \"message\": \"What are the key insights from this research?\", \"context\": $CONTEXT}"
 
 # 4. Get chat history
-curl -X GET http://localhost:5055/api/chat/sessions/$SESSION_ID
+curl -X GET http://localhost:5056/api/chat/sessions/$SESSION_ID
 
 # 5. List all sessions for the notebook
-curl -X GET "http://localhost:5055/api/chat/sessions?notebook_id=$NOTEBOOK_ID"
+curl -X GET "http://localhost:5056/api/chat/sessions?notebook_id=$NOTEBOOK_ID"
 ```
 
 ## 📡 WebSocket Support
